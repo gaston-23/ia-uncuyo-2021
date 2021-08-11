@@ -32,6 +32,24 @@ Una de las críticas más persistentes e influyentes de la IA como empresa la re
 # IA Fuerte
 
 > *"Hasta que una máquina pueda escribir un soneto o componer un concierto porque sienta los pensamientos y las emociones, y no porque haya una lluvia de símbolos, podría reconocer que la máquina iguala al cerebro, es decir, no sólo escribirlo sino que sepa que lo ha hecho."*
-> 
+>  
 > Geoffrey Jefferson (1949)
+
+Muchos filósofos han afirmado que una máquina que pasa el Test de Turing no quiere decir que esté realmente pensando, sería solamente una simulación de la acción de pensar. Esto es lo que Turing llama el argumento de la consciencia, la máquina tiene que ser consciente de sus propias acciones y estados mentales.
+### Funcionalismo vs naturalismo biologico
+
+La teoría del **funcionalismo** dice que un estado mental es cualquier condición causal inmediata entre la entrada y la salida. Bajo la teoría funcionalista, dos sistemas con procesos causales isomórficos tendrían los mismos estados mentales. Por tanto, un programa informático podría tener los mismos estados mentales que una persona
+
+En contraste, la teoría del **naturalismo biológico** dice que los estados mentales son características emergentes de alto nivel originadas por procesos neurológicos de bajo nivel en las neuronas, y lo que importa son las propiedades (no especificadas) de las neuronas. 
+Así pues, los estados mentales no se pueden duplicar justo en la base de algún programa que tiene la misma estructura funcional con el mismo comportamiento de entrada y salida; necesitaríamos que el programa se ejecutara en una arquitectura con la misma potencia causal que las neuronas.
+
+## El problema de mente-cuerpo
+
+El problema mente-cuerpo cuestiona cómo se relacionan los estados y los procesos mentales con los estados y los procesos del cuerpo.
+
+René Descartes abordó el tema de cómo un alma inmortal interactúa con un cuerpo mortal, y concluyó diciendo que el alma y el cuerpo son dos tipos de cosas diferentes, una **teoría dualista**. La **teoría monista**, frecuentemente llamada materialismo, mantiene que no existen cosas tales como almas inmateriales, sino sólo objetos materiales. 
+Como consecuencia, los estados mentales, tales como sentir dolor,saber que alguien está montando a caballo, o creer que la capital de Austria es Viena, son estados del cerebro. 
+John Searle, de forma concisa, resume esta idea con el slogan, *"Los cerebros producen las mentes"*
+
+## El experimento del *cerebro en una cubeta*
 
