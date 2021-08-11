@@ -53,3 +53,30 @@ John Searle, de forma concisa, resume esta idea con el slogan, *"Los cerebros pr
 
 ## El experimento del *cerebro en una cubeta*
 
+Imagínese que al nacer le extraen el cerebro de su cuerpo y lo colocan en una cubeta con una ingeniería maravillosa. Esta cubeta mantiene su cerebro y le permite crecer y desarrollarse. 
+¿sería el mismo estado mental que el del cerebro en un cuerpo?
+
+Una forma de resolver el dilema es decir que el contenido de los estados mentales puede ser interpretado desde dos puntos de vista diferentes. La visión del «contenido extenso» interpreta el dilema desde el punto de vista de un observador omnisciente desde fuera con acceso a la situación completa, y que puede distinguir las diferencias del mundo. De esta manera, bajo el contenido extenso, las ideas del cerebro en una cubeta son diferentes de las de una persona «normal». El contenido estrecho sólo tiene en cuenta el punto de vista subjetivo interno, y bajo este punto de vista todas las creencias serían las mismas.
+
+## El experimento de la prótesis cerebral
+
+El experimento consiste en sustituir gradualmente todas las neuronas de la cabeza de alguien con mecanismos electrónicos y a continuación invertir el proceso para retornar al sujeto a su estado biológico normal.
+
+Moravec, un investigador y funcionalista en robótica, está convencido de que su consciencia no se vería afectada. Searle, un filósofo y naturalista biólogo, también está convencido de que la consciencia desaparecería
+
+En primer lugar, hay que destacar que para que el comportamiento externo siga siendo el mismo, mientras que el individuo se va sumiendo gradualmente en la inconsciencia, debe darse el caso de que la propia voluntad del sujeto se elimine instantáneamente y totalmente; de otra manera, la reducción del conocimiento se vería reflejada en el comportamiento externo.
+Esta eliminación instantánea de la propia voluntad como resultado de la sustitución gradual de neuronas una a una parece ser una afirmación improbable.
+
+En segundo lugar, examinemos qué ocurre si formulamos al sujeto cuestiones relacionadas con su experiencia consciente durante el período en donde no existen neuronas reales.
+
+Ahora bien, durante el curso normal de sucesos, el escéptico puede desechar tales salidas de programas de IA tales como simples artimañas. Sin embargo lo importante es que, debido a que hemos duplicado las propiedades funcionales de un cerebro humano normal, supondremos que el cerebro electrónico no contiene dichas artimañas. Debemos entonces tener una explicación de las manifestaciones de la consciencia producidas por el cerebro electrónico que atañe sólo a las propiedades funcionales de las neuronas. 
+
+Parece entonces que existen sólo dos conclusiones posibles:
+1. Los mecanismos causales de la consciencia que generan estas clases de salidas en los cerebros normales todavía están funcionando en la versión electrónica, que, por tanto, es consciente.
+2. Los sucesos mentales conscientes en el cerebro normal no tienen conexión causal con el comportamiento, y quedan fuera del cerebro electrónico, que no es, por tanto, consciente.
+
+Aunque no podamos descartar la segunda posibilidad, esto reduce la consciencia a lo que los filósofos llaman rol **epifenomenal**, algo que ocurre, pero que no deja pistas como si lo fuera en el mundo observable.
+
+En tercer lugar, examinemos la situación en que la operación se ha invertido y el sujeto tiene un cerebro normal. Una vez más, el comportamiento externo del sujeto debe ser, por definición, como si la operación no hubiera ocurrido. En particular, deberíamos poder preguntar, «¿Cómo estaba durante la operación?, ¿recuerda el bastón acabado en punta?». El sujeto debe tener recuerdos precisos de la naturaleza real de sus experiencias conscientes, incluyendo las qualia, a pesar del hecho de que según Searle no ha habido tales experiencias.
+
+# La ética y los riesgos de desarrollar IA
