@@ -104,3 +104,5 @@ Cualquier tecnología tiene el potencial de hacer daño si se encuentra en las m
 # Conclusion
 
 En mi opinion, despues de leer este capitulo, puedo decir que actualmente las maquinas pueden comportarse como maquinas inteligentes, o pueden estar programadas para dar la sensacion de que lo son, por ej. en casos donde debe interactuar con un ser humano, es decir, que en la actualidad tenemos una IA debil, nos da la sensacion de que son inteligentes, pero solo es porque fueron programadas para ser buenas en su campo, podemos destacar que no existe todavia el termino de consciencia en las IA actuales y que no podemos responder a la pregunta *"¿Pueden pensar las máquinas?"* debido a que es una pregunta ambigua ya que no estan bien definidos conceptos como pensamiento y consciencia.
+
+![mapa conceptual del capitulo](./Inteligencia%20Artificial.jpg)
