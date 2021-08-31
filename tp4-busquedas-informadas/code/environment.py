@@ -1,20 +1,22 @@
 
 from random import choices,randint
+from math import sqrt,pow
 
 
-class environment :
+class environment:
 
-    def __init__(self,partida_aleatoria = True,testing = ""):  
-        self.tablero = list()
+    def __init__(self,partida_aleatoria = True,testing = ""): 
         self.len_x = 100
         self.len_y = 100
         self.part_x = 0
+        self.obj_x = 0
         self.part_y = 0
-
+        self.obj_y = 0
+        self.tablero = list()
         if testing == "" :      
             pop = [' ','X']
-            ran_x = randint(0,self.len_x-1)
-            ran_y = randint(0,self.len_y-1)
+            self.obj_x = randint(0,self.len_x-1)
+            self.obj_y = randint(0,self.len_y-1)
             if partida_aleatoria :
                 self.part_x = randint(0,self.len_x-1)
                 self.part_y = randint(0,self.len_y-1)
@@ -22,8 +24,8 @@ class environment :
                 assign = choices(pop, weights=[0.8,0.4], k=self.len_y)
                 if i == self.part_x :
                     assign[self.part_y] = 'S'
-                if i == ran_x :
-                    assign[ran_y] = 'O'
+                if i == self.obj_x :
+                    assign[self.obj_y] = 'O'
                 self.tablero.append(assign)
         else:
             for i in testing.split("\n"):
@@ -81,5 +83,8 @@ class environment :
     
     def get_pos_ini (self) -> tuple:
         return (self.part_x,self.part_y)
+    
+    def get_dist(self, pos):
+        return sqrt(pow(pos[0]-self.obj_x,2)+pow(pos[1]-self.obj_y,2))
     
         

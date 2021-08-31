@@ -3,12 +3,7 @@ from environment import environment
 from prio_queue import prio_queue
 
 class agent:
-    pos_act = None
-    piso = []
-    ERROR_MOV = "Error en el movimiento, excede los limites"
-    visitados = list()
     
-
     def __init__(self,tablero : environment):
        
         self.piso = tablero 
@@ -18,7 +13,7 @@ class agent:
     def calcula_BFS(self) -> node:
         frontera = prio_queue()
         visitados = list()
-
+        self.eficiencia = 0
         aux_ini = node(self.pos_act,0)
         frontera.insert(aux_ini)
 
@@ -41,6 +36,7 @@ class agent:
 
                     if visitados.count(pos) == 0 and aux_h == False :
                         aux_h = node(pos,aux.costo+1)
+                        self.eficiencia += 1
                         frontera.insert(aux_h)
                         aux_h.set_padre(aux)
                 
@@ -50,7 +46,8 @@ class agent:
 
     def calcula_DFS(self) -> node:
         
-
+        self.eficiencia = 0
+        self.visitados = list()
         aux_ini = node(self.pos_act,0)
         # frontera.insert(aux_ini)
         sol = self.DFS_rec(aux_ini)
@@ -78,19 +75,18 @@ class agent:
             if self.piso.get_casilla(pos) != 'X' and self.visitados.count(pos) == 0 :
 
                 aux_h = node(pos,aux.costo+1)
+                self.eficiencia += 1
                 aux_h.set_padre(aux)
                 sol = self.DFS_rec(aux_h)
                 if sol != None:
                     return sol
                 
-            
-        
         return None
 
     def calcula_unif(self):
         frontera = prio_queue()
         visitados = list()
-
+        self.eficiencia = 0
         aux_ini = node(self.pos_act,0)
         frontera.insert(aux_ini,prio=True)
 
@@ -114,12 +110,12 @@ class agent:
                     if visitados.count(pos) == 0 :
                         if aux_h == False :
                             aux_h = node(pos,aux.costo+1)
+                            self.eficiencia += 1
                             frontera.insert(aux_h,prio=True)
-                        elif aux_h.padre != None and aux_h.padre.costo > aux.costo + 1 :
-                            frontera.update_idx(aux_h.pos)
-
-                        if aux_h.padre == None or (aux_h.padre != None and aux_h.padre.costo > aux.costo + 1) :
                             aux_h.set_padre(aux)
+                        elif aux_h.padre != None and aux_h.padre.costo > (aux.costo + 1) :
+                            frontera.update_idx(aux_h.pos)
+                            aux_h.set_padre(aux)                            
                 
             visitados.append(aux.pos)
         print("No hay solucion")
