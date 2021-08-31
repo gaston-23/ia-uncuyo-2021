@@ -31,3 +31,7 @@
 
 ### Desviacion estandar: 2319.7124001781403
 
+
+## Comparativa
+
+Para resolver el inciso A, creo que las mejores soluciones son por BFS y uniforme, estas son casi identicas debido a que las casillas no tienen un peso, si no que el costo esta dado por el camino recorrido, por lo que ante una mejora o un cambio de escenario la solucion por busqueda uniforme nos daria el resultado optimo
