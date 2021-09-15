@@ -6,25 +6,35 @@ from math import exp
 
 class board:
 
-    def __init__(self,queens) -> None:
+    def __init__(self,queens,auto=True) -> None:
         '''
         queens {int} : define la cantidad de reinas y por ende el largo y ancho del tablero
         '''
         self.tablero = list()
         self.queens = list()
-        for i in range(queens):
-            assign = list()
-            aux = randint(0,queens-1)
-            for j in range(queens):
-                if j == aux:
-                    q = queen(i,j)
-                    assign.append(q)
-                    self.queens.append(q)
-                    # assign.append('Q')
-                else:
-                    assign.append(' ')
-            self.tablero.append(assign)
-        
+        if auto:
+            for i in range(queens):
+                assign = list()
+                aux = randint(0,queens-1)
+                for j in range(queens):
+                    if j == aux:
+                        q = queen(i,j)
+                        assign.append(q)
+                        self.queens.append(q)
+                        # assign.append('Q')
+                    else:
+                        assign.append(' ')
+                self.tablero.append(assign)
+
+    def agrega_fil(self,filas):
+        for i in filas:
+            for j in range(len(i)):
+                if isinstance(i[j],queen):
+                    i[j].i = filas.index(i)
+                    i[j].j = j
+                    self.queens.append(i[j])
+            self.tablero.append(i)
+
 
     def calcula_match(self,pos_i,pos_j):
         '''
@@ -38,6 +48,7 @@ class board:
             #         match += 1
             #     if abs(pos_j - j) == abs(pos_i - i) and self.tablero[i][j] == 'Q' and i != pos_i:
             #         match += 1 
+            
             if i != pos_i:
                 for j in range(len(self.tablero)):
                     if j == pos_j and isinstance(self.tablero[i][j], queen) :
@@ -88,7 +99,7 @@ class board:
                 minis.append(i)
         
         mini = 99
-        print(minis)
+        # print(minis)
         final_res = list()
         for i in minis :
             if res[i[0]][i[1]] < mini :
@@ -100,10 +111,7 @@ class board:
                 
         best = final_res[randint(0,len(final_res)-1)]
         # print(best)
-        # for i in range(len(self.tablero)) :
-        #     if self.tablero[best[0]][i] == 'Q':
-        #         self.tablero[best[0]][i] = ' '
-        print(best[0],self.queens[best[0]].j,best[1])
+        # print(best[0],self.queens[best[0]].j,best[1])
         self.move_queen(best[0],best[1],res[best[0]][best[1]])
 
         return (self.get_valorizacion(), best[0])
@@ -220,3 +228,21 @@ class board:
 
             resl += '\n'
         return resl
+
+    def extraer_filas(self,cant,inicio):
+        aux = list()
+        if inicio:
+            for i in range(cant):
+                aux.append(self.tablero[i])
+        else:
+            for i in range(len(self.tablero)-cant-1, len(self.tablero)):
+                aux.append(self.tablero[i])
+        return aux
+    
+    def mutar(self):
+        ran_x = randint(0,len(self.tablero)-1)
+        ran_y = randint(0,len(self.tablero)-1)
+        res,minis_aux = self.get_mapa()
+        self.move_queen(ran_x,ran_y,res[ran_x][ran_y])
+
+    

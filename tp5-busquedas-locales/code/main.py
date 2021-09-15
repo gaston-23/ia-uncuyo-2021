@@ -1,12 +1,18 @@
 
 from board import board;
 
+from genetic import genetic;
 
 
-b = board(12)
-# b.hill_climb(2)
-b.sim_ann(0)
+
+b = board(6)
+# b.hill_climb(0)
+# b.sim_ann(0)
 # print(b)
+
+g = genetic(6)
+
+g.seleccion_ga()
 
 # print(b.get_mapa())
 
