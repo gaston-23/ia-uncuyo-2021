@@ -119,7 +119,7 @@ class board:
     def get_valorizacion(self):
         top = [0,0,0]
         for i in self.queens:
-            print(i,i.valor, sep='->')
+            # print(i,i.valor, sep='->')
             if i.valor < 3 :
                 top[i.valor] += 1
         return 3*top[0] + 2*top[1] + 1*top[2]
@@ -147,12 +147,14 @@ class board:
             skip.append(aux_skip) #añade la reina a la lista de excepciones para evitar entrar en un optimo local
             if len(skip) > len(self.tablero)*0.8: #cuando la lista es suficientemente grande, se limpia
                 skip.clear()
-            print('it -> ',k,' | valor: ',max_i)
+            # print('it -> ',k,' | valor: ',max_i)
 
-            print(self)
+            # print(self)
             k += 1
+        return k
 
     def get_punt_sa(self,queens):
+        self.get_mapa()
         sum_tot = 0
         for i in queens:
             sum_tot += i.valor
@@ -160,14 +162,14 @@ class board:
 
     def seleccion_sa(self,t,old):
         temp = self.temp_sched(t)
-        print("temp:",temp)
+        # print("temp:",temp)
 
         res,minis_aux = self.get_mapa()
         if temp == 0:
             return old
         minis = list()
         # minis = minis_aux
-        print("res::\n",self.print_res(res))
+        # print("res::\n",self.print_res(res))
         # for i in minis_aux:
         #     print(i,'->',self.queens[i[0]].i,self.queens[i[0]].j)
         #     if i[1] != self.queens[i[0]].j :
@@ -181,17 +183,17 @@ class board:
                     
                 if res[i[0]][i[1]] == mini :
                     minis.append(i)
-        for i in minis:
-            print(i,res[i[0]][i[1]])
+        # for i in minis:
+            # print(i,res[i[0]][i[1]])
         if len(minis) == 0:
             return self.get_punt_sa(self.queens)
         rand_best = minis[randint(0,len(minis)-1)]
-        print(rand_best)
+        # print(rand_best)
         new_queens = self.queens
         new_queens[rand_best[0]].valor = res[rand_best[0]][rand_best[1]]
         delta_e = self.get_punt_sa(new_queens) - old 
         if delta_e < 0 or random() <= self.prob(temp,delta_e):
-            print("d: ",delta_e,"::",self.prob(temp,delta_e))
+            # print("d: ",delta_e,"::",self.prob(temp,delta_e))
             self.move_queen(rand_best[0],rand_best[1],res[rand_best[0]][rand_best[1]])
         return self.get_punt_sa(self.queens)
 
@@ -213,11 +215,11 @@ class board:
             # skip.append(aux_skip)
             # if len(skip) > len(self.tablero)*0.8:
             #     skip.clear()
-            print('it -> ',k,' | valor: ',max_i)
+            # print('it -> ',k,' | valor: ',max_i)
 
-            print(self)
+            # print(self)
             k += 1
-        return 1
+        return k
 
     def print_res(self,res):
         resl = ''
