@@ -143,4 +143,4 @@ class genetic:
         print(self.poblacion.get(0).key)
         print(self.poblacion.get(0).data.get_punt_sa(self.poblacion.get(0).data.queens))
         # print(self.poblacion.get(0).data)
-        return self.poblacion.get(0).data,self.poblacion.get(0).key,k
+        return k

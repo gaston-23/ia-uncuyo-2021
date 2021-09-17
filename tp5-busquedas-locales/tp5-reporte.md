@@ -1,0 +1,26 @@
+
+    q = 4
+media_pasos hc::  9.8
+media_tiempo hc::  0.0007131099700927734
+media_pasos sa::  4.566666666666666
+media_tiempo sa::  0.000731968879699707
+    q = 6
+media_pasos hc::  72.37931034482759
+media_tiempo hc::  0.04544001612169989
+media_pasos sa::  24.316666666666666
+media_tiempo sa::  0.03890032370885213
+    q = 8
+media_pasos hc::  106.81481481481481
+media_tiempo hc::  0.11035302538930634
+media_pasos sa::  39.842696629213485
+media_tiempo sa::  0.12221104375432047
+    q = 10
+media_pasos hc::  104.41758241758242
+media_tiempo hc::  0.1248991384611025
+media_pasos sa::  39.71186440677966
+media_tiempo sa::  0.17014435590323757
+    q = 12
+media_pasos hc::  105.41509433962264
+media_tiempo hc::  0.20894814437290407
+media_pasos sa::  39.97959183673469
+media_tiempo sa::  0.28712465487369876
