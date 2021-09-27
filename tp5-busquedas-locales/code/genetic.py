@@ -123,12 +123,12 @@ class genetic:
             fit_old,self.poblacion =  self.calcular_fit(self.poblacion)
             fit_new,next_pob = self.calcular_fit(next_pob)
             delta = fit_old - fit_new
-            print("delta:: ",delta,"fit a: ",fit_old,"fit b: ",fit_new)
+            # print("delta:: ",delta,"fit a: ",fit_old,"fit b: ",fit_new)
             # if delta > 0 :
             self.poblacion = next_pob 
-            print("k ->",k, " max 0: ",self.poblacion.get(0).key, " // ", len(self.poblacion))
+            # print("k ->",k, " max 0: ",self.poblacion.get(0).key, " // ", len(self.poblacion))
             # print(self.poblacion.get(0).data)
-            print("========================================================")
+            # print("========================================================")
             # else:
             #     next_pob,idx = self.mutacion(next_pob)
             #     print(next_pob.get(idx).data)
@@ -139,8 +139,8 @@ class genetic:
             #     # for i in range(len(self.poblacion)):
             #     #     print(self.poblacion.get(i).data)
             # print("k ->",k, " max 0: ",self.poblacion.get(0).key, " // ", len(self.poblacion))
-        print(self.poblacion.get(0).data)
-        print(self.poblacion.get(0).key)
-        print(self.poblacion.get(0).data.get_punt_sa(self.poblacion.get(0).data.queens))
+        # print(self.poblacion.get(0).data)
+        # print(self.poblacion.get(0).key)
+        # print(self.poblacion.get(0).data.get_punt_sa(self.poblacion.get(0).data.queens))
         # print(self.poblacion.get(0).data)
         return k
