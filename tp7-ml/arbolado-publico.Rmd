@@ -1,0 +1,309 @@
+---
+title: "arbolado-publico"
+author: "Gaston Cavallo"
+date: "13/10/2021"
+output: html_document
+---
+
+```{r}
+# For manipulating the datasets
+
+library(readr)
+library(ggplot2)
+library(ggdark)
+library(dplyr)
+
+# For plotting correlation matrix
+library(ggcorrplot)
+
+
+# For Multi-core processing support
+library(doMC)
+# Use 3 cores, change it accordingly. 
+registerDoMC(cores=4)
+# Machine Learning library
+library(caret)
+library(rpart)
+```
+
+# Procesamos los datos 
+# Cortamos el dataset para usar como entrenamiento el 80% del dataset
+
+```{r}
+dataset_arbolado <- read_csv("data/arbolado-mza-dataset.csv")
+
+dataset_arbolado_train <- dataset_arbolado
+
+trainIdx <- createDataPartition(as.factor(dataset_arbolado_train$inclinacion_peligrosa),p=0.80,list=FALSE)
+
+
+dataset_arbolado <- dataset_arbolado[ trainIdx, ]
+dataset_arbolado_train <- dataset_arbolado[-trainIdx, ]
+
+dataset_arbolado
+dataset_arbolado_train
+```
+# Guardamos el csv
+
+```{r}
+write.csv(dataset_arbolado,"data/arbolado-publico-mendoza-2021-validation.csv")
+write.csv(dataset_arbolado_train,"data/arbolado-publico-mendoza-2021-train.csv")
+
+```
+
+# Punto 2
+
+## Distribucion de la clase inclinacion_peligrosa
+
+### a - Tiene una distribucion sesgada a derecha (fig. 1)
+### b - Si, corroborando el grafico 2, se observa que la seccion 4 y 5 son las mas peligrosas (fig. 3)
+### c - Si, nuevamente mediante la observacion del grafico 3, podemos deducir que la especie Morera es la mas peligrosa (fig. 3)
+
+```{r}
+
+distribucion_inc_pel <- dataset_arbolado_train %>% group_by(inclinacion_peligrosa) %>% summarise(total=n())
+
+dist_inc_pel_seccion <- dataset_arbolado_train %>% group_by(seccion,inclinacion_peligrosa)  %>% summarise(total=n())
+dist_inc_pel_especie <- dataset_arbolado_train %>% group_by(especie,inclinacion_peligrosa)  %>% summarise(total=n())
+
+ggplot(dist_inc_pel_seccion,aes(x=inclinacion_peligrosa,y=total)) + 
+  ggdark::dark_theme_classic() + 
+  geom_bar(stat="identity")+
+  labs(title="Distribucion de la clase inclinacion_peligrosa. Fig. 1")
+
+#distribucion_inc_pel
+ggplot(dist_inc_pel_seccion,aes(x=seccion,y=total,fill=inclinacion_peligrosa)) + 
+  ggdark::dark_theme_classic() + 
+  geom_bar(stat="identity") +
+  labs(title="Inclinacion peligrosa por seccion. Fig. 2")
+
+ggplot(dist_inc_pel_especie,aes(x=especie,y=total,fill=inclinacion_peligrosa)) + 
+  ggdark::dark_theme_classic() + 
+  geom_bar(stat="identity") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(title="Inclinacion peligrosa por especie. Fig. 3")
+
+```
+
+# Punto 3
+
+## a. Histograma de frecuencia para la variable altura (fig. 4)
+## b. Histograma de frecuencia para la variable diametro (fig. 5)
+## c. (fig. 6)
+## d. (fig. 7)
+
+```{r}
+# a
+hist_diam <- dataset_arbolado_train  %>% group_by(altura) %>% summarise(total=n())
+
+ggplot(hist_diam, aes(x=altura,y=total,fill=altura))+
+  ggdark::dark_theme_classic() +
+  geom_bar(stat="identity") +
+  labs(title="Frecuencia de la variable altura Fig. 4")
+# b
+hist_diam <- dataset_arbolado_train  %>% group_by(diametro_tronco) %>% summarise(total=n())
+
+ggplot(hist_diam, aes(x=diametro_tronco,y=total,fill=diametro_tronco))+
+  ggdark::dark_theme_classic() +
+  geom_bar(stat="identity") +
+  labs(title="Frecuencia de la variable diametro. Fig. 5")
+# c
+hist_diam_inclin <- dataset_arbolado_train  %>% group_by(diametro_tronco,inclinacion_peligrosa) %>% summarise(total=n())
+
+ggplot(hist_diam_inclin, aes(x=diametro_tronco,y=total,fill=inclinacion_peligrosa))+
+  ggdark::dark_theme_classic() +
+  geom_bar(stat="identity") +
+  labs(title="Frecuencia de la variable diametro en realcion con inclinacion_peligrosa. Fig. 6")
+# d
+ds_arb_cir_tronco_cm_train <- dataset_arbolado_train %>% 
+  mutate(circ_tronco_cm_cat = ifelse(circ_tronco_cm<=70,'Bajo (<= 70cm)',
+                                     ifelse(circ_tronco_cm>70 & circ_tronco_cm<=150,'Medio (70 - 150cm)',
+                                            ifelse(circ_tronco_cm>150 & circ_tronco_cm<=200,'Alto (151 - 200cm)',
+                                       'Muy alto (> 200cm)'))))
+
+ggplot(ds_arb_cir_tronco_cm_train %>% group_by(circ_tronco_cm_cat) %>% summarise(total=n()), 
+       aes(x=circ_tronco_cm_cat,y=total,fill=circ_tronco_cm_cat))+
+  ggdark::dark_theme_classic() +
+  geom_bar(stat="identity") +
+  labs(title="Frecuencia del tamaño del diametro del tronco. Fig. 7")
+
+write.csv(ds_arb_cir_tronco_cm_train,"data/arbolado-publico-mendoza-2021-circ_tronco_cm-train.csv")
+
+```
+# 4. Clasificador aleatorio
+
+```{r}
+
+
+random_classifier = function(dataset){
+  x = dataset %>%  
+      mutate(prediction_prob = runif(
+        (dataset %>% summarise(total=n()))$total,
+        min=0,
+        max=1)) %>%  
+      mutate(prediction_class = ifelse(prediction_prob > 0.5 ,1,0))
+  return (x)
+}
+dataset_arbolado_val <- read_csv("data/arbolado-publico-mendoza-2021-validation.csv")
+#dataset_arbolado_val <- random_classifier (dataset_arbolado_train)
+dataset_arbolado_val <- random_classifier (dataset_arbolado_val)
+true_Positive <- dataset_arbolado_val %>% filter(inclinacion_peligrosa == 1 & prediction_class == 1)
+true_Negative <- dataset_arbolado_val %>% filter(inclinacion_peligrosa == 0 & prediction_class == 0)
+false_Positive <- dataset_arbolado_val %>% filter(inclinacion_peligrosa == 0 & prediction_class == 1)
+false_Negative <- dataset_arbolado_val %>% filter(inclinacion_peligrosa == 1 & prediction_class == 0)
+tp_r <- nrow(true_Positive)
+tn_r <- nrow(true_Negative)
+fp_r <- nrow(false_Positive)
+fn_r <- nrow(false_Negative)
+"Verdadero positivo: "
+tp_r
+"Verdadero negativo: "
+tn_r
+"Falso positivo: "
+fp_r
+"Falso negativo: "
+fn_r
+
+
+```
+# Clasificador por clase mayoritaria:
+
+```{r}
+biggerclass_classifier = function(dataset){
+  aux = (dataset  %>% group_by(inclinacion_peligrosa) %>% summarise(total=n()))
+  x = dataset %>%  
+      mutate(prediction_class = ifelse(aux[1,2] > aux[2,2] ,0,1))
+  return(x)
+}
+dataset_arbolado_val <- read_csv("data/arbolado-publico-mendoza-2021-validation.csv")
+dataset_arbolado_val
+dataset_arbolado_val <- biggerclass_classifier (dataset_arbolado_val)
+dataset_arbolado_val
+true_Positive <- dataset_arbolado_val %>% filter(inclinacion_peligrosa == 1 & prediction_class == 1)
+true_Negative <- dataset_arbolado_val %>% filter(inclinacion_peligrosa == 0 & prediction_class == 0)
+false_Positive <- dataset_arbolado_val %>% filter(inclinacion_peligrosa == 0 & prediction_class == 1)
+false_Negative <- dataset_arbolado_val %>% filter(inclinacion_peligrosa == 1 & prediction_class == 0)
+tp_b <- nrow(true_Positive)
+tn_b <- nrow(true_Negative)
+fp_b <- nrow(false_Positive)
+fn_b <- nrow(false_Negative)
+"Verdadero positivo: "
+tp_b
+"Verdadero negativo: "
+tn_b
+"Falso positivo: "
+fp_b
+"Falso negativo: "
+fn_b
+```
+
+
+# Ejercicio 6
+
+```{r}
+sensivity_r = tp_r / (tp_r + fn_r)
+specificity_r = tn_r / (tn_r + fp_r)
+precision_r = tp_r / (tp_r + fp_r)
+accuracy_r = (tp_r + tn_r) / (tp_r + tn_r + fp_r + fn_r)
+
+sensivity_b = tp_b / (tp_b + fn_b)
+specificity_b = tn_b / (tn_b + fp_b)
+precision_b = tp_b / (tp_b + fp_b)
+accuracy_b = (tp_b + tn_b) / (tp_b + tn_b + fp_b + fn_b)
+"Random"
+sensivity_r
+specificity_r 
+precision_r 
+accuracy_r 
+"Bigger"
+sensivity_b
+specificity_b 
+precision_b 
+accuracy_b
+
+```
+# Ejercicio 7
+
+```{r}
+
+create_folds = function(dataframe,folds){
+  rows_df <- sample(nrow(dataframe))
+  final <- dataframe[rows_df,]
+  r_tot <- nrow(dataframe)
+  L <- list()
+  for(i in 1:(folds-1)){
+    r_tot <- sample(round(nrow(dataframe)*(i/folds),0),replace = TRUE)
+    
+    L[[i]] <- final[ r_tot,]
+  }
+  return(L)
+}
+
+cross_validation = function(dataframe,folds){
+  #train(dataframe, trained ,method = "cv")
+  folded <- create_folds(dataframe, folds)
+  rpart.model <- rpart(V4 ~ .,data = folded, xval = 0)
+  rpart.pred <- predict(rpart.model,dataframe)
+  res <- crossprod(rpart.pred - dataframe) / length(folds)
+  return(res)
+}
+folds_cv <- create_folds(dataset_arbolado_train,10)
+cross_validation(dataset_arbolado_train,10)
+#dataset_arbolado_train
+#folds_cv
+```
+```{r}
+train_cv <- read_csv("data/arbolado-publico-mendoza-2021-train.csv")
+train_cv <- train_cv %>% select(-nombre_seccion)
+train_cv
+
+#train_cv <- mutate(circ_tronco_cm_cat = ifelse(circ_tronco_cm<=70,'Bajo (<= 70cm)',
+#                                     ifelse(circ_tronco_cm>70 & circ_tronco_cm<=150,'Medio (70 - 150cm)',
+#                                            ifelse(circ_tronco_cm>150 & circ_tronco_cm<=200,'Alto (151 - 200cm)',
+#                                       'Muy alto (> 200cm)'))))
+train_cv$inclinacion_peligrosa <- as.factor(train_cv$inclinacion_peligrosa)
+#train_cv[, c(2)] <- scale(train_cv[, c(2)])
+summary(train_cv)
+
+library(caTools)
+set.seed(1234)
+split <- sample.split(train_cv$inclinacion_peligrosa, SplitRatio = 0.80)
+training_set <- subset(train_cv, split == TRUE)
+test_set <- subset(train_cv, split == FALSE)
+table(training_set$inclinacion_peligrosa)
+
+```
+
+
+```{r}
+
+library(rpart)
+library(randomForest)
+library(readr)
+library(dplyr)
+library(caret)
+
+
+arbolado_train <-read_csv("data/arbolado-mza-dataset.csv")
+arbolado_test <-read_csv("data/arbolado-publico-mendoza-2021-train.csv")
+
+arbolado_train<-arbolado_train %>% mutate(inclinacion_peligrosa=ifelse(inclinacion_peligrosa=='1','si','no'))
+
+arbolado_train$inclinacion_peligrosa <-as.factor(arbolado_train$inclinacion_peligrosa)
+
+mod <- randomForest(inclinacion_peligrosa ~ altura+especie+diametro_tronco,data = arbolado_train,importance=TRUE,ntree = 600)
+tree_model_3<-rpart(mod,data=arbolado_train)
+tree_model_3
+pred <- predict(tree_model_3,arbolado_train)
+pred <- predict(tree_model_3,arbolado_test)
+head(pred)
+
+preds_tree<-ifelse(pred[,2] >=0.4,1,0)
+submission<-data.frame(id=arbolado_test$id,inclinacion_peligrosa=preds_tree)
+readr::write_csv(submission,"results.csv")
+
+mod
+confusionMatrix(pred,arbolado_train$inclinacion_peligrosa)
+
+```
+
