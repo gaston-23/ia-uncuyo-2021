@@ -1,0 +1,337 @@
+---
+title: "tp7-Parte-b"
+author: "Gaston Cavallo"
+date: "27/10/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+#cargar librerias
+library(dplyr) 
+library(readr)
+library(rpart)
+library(caret)
+library(randomForest)
+
+
+# For Multi-core processing support
+library(doMC)
+# Use 3 cores, change it accordingly. 
+registerDoMC(cores=4)
+```
+
+```{r, include=FALSE}
+#cargar dataset
+set.seed(123)
+dataset <- read_csv("arbolado-mza-dataset.csv")
+testset <- read_csv("arbolado-mza-dataset-test.csv")
+
+```
+
+
+```{r}
+#cortamos el dataset 
+dataset$inclinacion_peligrosa <- as.factor(dataset$inclinacion_peligrosa)
+dataset$especie <- as.factor(dataset$especie)
+dataset$altura <- as.factor(dataset$altura)
+
+testset$especie <- factor(testset$especie,levels=levels(dataset$especie))
+testset$altura <- factor(testset$altura,levels=levels(dataset$altura))
+
+#dividimos el dataset en trainData y testData
+#trainIdx <- createDataPartition(as.factor(dataset$inclinacion_peligrosa),p=0.80,list=FALSE)
+#trainData <- dataset[ trainIdx, ]
+#testData <- dataset[ -trainIdx, ]
+#
+#trainData
+#testData
+#testset
+```
+
+```{r}
+#visualizar los datos por columna
+
+sapply(dataset, class)
+#summary(trainData)
+#sapply(trainData, class)
+
+#summary(testData)
+#sapply(testData, class)
+
+
+#summary(testset)
+sapply(testset, class)
+```
+
+
+```{r}
+# guardamos los id para recrear la tabla
+treesID <- testset$id
+
+
+#eliminar columnas innecesarias en dataset
+drop <- names(dataset) %in% c("ultima_modificacion")
+dataset <- dataset[,!drop]
+
+drop <- names(dataset) %in% c("lat")
+dataset <- dataset[,!drop]
+
+drop <- names(dataset) %in% c("long")
+dataset <- dataset[,!drop]
+
+drop <- names(dataset) %in% c("nombre_seccion")
+dataset <- dataset[,!drop]
+
+#drop <- names(dataset) %in% c("seccion")
+#dataset <- dataset[,!drop]
+
+#drop <- names(dataset) %in% c("diametro_tronco")
+#dataset <- dataset[,!drop]
+
+
+#eliminar columnas innecesarias en trainset
+drop <- names(testset) %in% c("ultima_modificacion")
+testset <- testset[,!drop]
+
+drop <- names(testset) %in% c("lat")
+testset <- testset[,!drop]
+
+drop <- names(testset) %in% c("long")
+testset <- testset[,!drop]
+
+drop <- names(testset) %in% c("nombre_seccion")
+testset <- testset[,!drop]
+
+#drop <- names(testset) %in% c("seccion")
+#testset <- testset[,!drop]
+
+#drop <- names(testset) %in% c("diametro_tronco")
+#testset <- testset[,!drop]
+
+positives <- dataset %>% filter(inclinacion_peligrosa == 1)
+negatives <- dataset %>% filter(inclinacion_peligrosa == 0)
+nrow(negatives)
+nrow(positives)
+# Take some random negatives for sample
+splitted <- sample(1:nrow(negatives),replace = F, size = 4500)
+negatives <- negatives[ splitted, ]
+dataset <- rbind(negatives,positives)
+#dataset
+nrow(negatives)
+nrow(positives)
+
+# Train model
+#testset
+rf <- randomForest(inclinacion_peligrosa ~ altura + especie + circ_tronco_cm + seccion + area_seccion, data=dataset,ytest= dataset$inclinacion_peligrosa, importance=TRUE, ntree=1000)
+inclinacion_peligrosa <- predict(rf, newdata = testset)
+print(rf)
+importance(rf)
+# Formatting
+inclinacion_peligrosa <- as.numeric(as.character(inclinacion_peligrosa))
+id <- treesID
+results <- data.frame(id,inclinacion_peligrosa)
+results
+
+readr::write_csv(results,"results.csv")
+#write.csv(results,"results.csv")
+```
+
+
+```{r}
+#cortamos el dataset 
+dataset$inclinacion_peligrosa <- as.factor(dataset$inclinacion_peligrosa)
+dataset$especie <- as.factor(dataset$especie)
+dataset$altura <- as.factor(dataset$altura)
+
+#dividimos el dataset en trainData y testData
+trainIdx <- createDataPartition(as.factor(dataset$inclinacion_peligrosa),p=0.80,list=FALSE)
+trainData <- dataset[ trainIdx, ]
+testData <- dataset[ -trainIdx, ]
+
+#trainData
+#testData
+#testset
+```
+
+```{r}
+#visualizar los datos por columna
+
+sapply(trainData, class)
+#summary(trainData)
+#sapply(trainData, class)
+
+#summary(testData)
+#sapply(testData, class)
+
+
+#summary(testset)
+sapply(testData, class)
+```
+
+
+```{r}
+
+dataset <- read_csv("arbolado-mza-dataset.csv")
+testset <- read_csv("arbolado-mza-dataset-test.csv")
+set.seed(23)
+#cortamos el dataset 
+dataset$inclinacion_peligrosa <- as.factor(dataset$inclinacion_peligrosa)
+dataset$especie <- as.factor(dataset$especie)
+dataset$altura <- as.factor(dataset$altura)
+
+#dividimos el dataset en trainData y testData
+trainIdx <- createDataPartition(as.factor(dataset$inclinacion_peligrosa),p=0.80,list=FALSE)
+trainData <- dataset[ trainIdx, ]
+testData <- dataset[ -trainIdx, ]
+
+#visualizar los datos por columna
+
+sapply(trainData, class)
+
+sapply(testData, class)
+
+# guardamos los id para recrear la tabla
+treesID <- testData$id
+
+#eliminar columnas innecesarias en dataset
+drop <- names(trainData) %in% c("ultima_modificacion")
+trainData <- trainData[,!drop]
+
+drop <- names(trainData) %in% c("lat")
+trainData <- trainData[,!drop]
+
+drop <- names(trainData) %in% c("long")
+trainData <- trainData[,!drop]
+
+drop <- names(trainData) %in% c("nombre_seccion")
+trainData <- trainData[,!drop]
+
+drop <- names(trainData) %in% c("seccion")
+trainData <- trainData[,!drop]
+
+drop <- names(trainData) %in% c("diametro_tronco")
+trainData <- trainData[,!drop]
+
+
+#eliminar columnas innecesarias en trainset
+drop <- names(testData) %in% c("ultima_modificacion")
+testData <- testData[,!drop]
+
+drop <- names(testData) %in% c("lat")
+testData <- testData[,!drop]
+
+drop <- names(testData) %in% c("long")
+testData <- testData[,!drop]
+
+drop <- names(testData) %in% c("nombre_seccion")
+testData <- testData[,!drop]
+
+drop <- names(testData) %in% c("seccion")
+testData <- testData[,!drop]
+
+drop <- names(testData) %in% c("diametro_tronco")
+testData <- testData[,!drop]
+
+positives <- trainData %>% filter(inclinacion_peligrosa == 1)
+negatives <- trainData %>% filter(inclinacion_peligrosa == 0)
+nrow(negatives)
+nrow(positives)
+# Take some random negatives for sample
+splitted <- sample(nrow(negatives),replace = F, size = 4500)
+negatives <- negatives[ splitted, ]
+trainData <- rbind(negatives,positives)
+#dataset
+# Train model
+#testset
+rf <- randomForest(inclinacion_peligrosa ~ altura + especie + circ_tronco_cm + area_seccion, data=trainData, ytest= testData$inclinacion_peligrosa, importance=TRUE)
+inclinacion_peligrosa <- predict(rf, newdata = testData)
+print(rf)
+importance(rf)
+# Formatting
+inclinacion_peligrosa <- as.numeric(as.character(testData$inclinacion_peligrosa))
+id <- treesID
+results <- data.frame(id,inclinacion_peligrosa)
+results
+data.frame(testData$id,as.numeric(as.character(testData$inclinacion_peligrosa)))
+
+```
+# Random classifier test
+```{r}
+
+dataset <- read_csv("arbolado-mza-dataset.csv")
+testset <- read_csv("arbolado-mza-dataset-test.csv")
+set.seed(123)
+
+#cortamos el dataset 
+#dataset$inclinacion_peligrosa <- as.factor(dataset$inclinacion_peligrosa)
+
+random_classifier = function(prob,test){
+  mix <- sample(nrow(test))
+  
+  x = test[,mix] %>%  
+      
+      mutate(prediction_prob = runif(
+        nrow(test),
+        min=0,
+        max=1)) %>%  
+      mutate(prediction_class = ifelse(prediction_prob > 1 - prob ,1,0))
+  return (x)
+}
+pro <- nrow(dataset %>% filter(inclinacion_peligrosa == 0))/(nrow(dataset %>% filter(inclinacion_peligrosa == 0))+nrow(dataset %>% filter(inclinacion_peligrosa == 1)))
+testset <- random_classifier (pro,testset)
+#true_Positive <- dataset %>% filter(inclinacion_peligrosa == 1 & prediction_class == 1)
+#true_Negative <- dataset %>% filter(inclinacion_peligrosa == 0 & prediction_class == 0)
+#false_Positive <- dataset %>% filter(inclinacion_peligrosa == 0 & prediction_class == 1)
+#false_Negative <- dataset %>% filter(inclinacion_peligrosa == 1 & prediction_class == 0)
+#tp_r <- nrow(true_Positive)
+#tn_r <- nrow(true_Negative)
+#fp_r <- nrow(false_Positive)
+#fn_r <- nrow(false_Negative)
+"positivos: "
+#nrow(trainData %>% filter(inclinacion_peligrosa == 1))
+"negativos: "
+#nrow(trainData %>% filter(inclinacion_peligrosa == 0))
+
+
+
+"Verdadero positivo: "
+#tp_r
+"Verdadero negativo: "
+#tn_r
+"Falso positivo: "
+#fp_r
+"Falso negativo: "
+#fn_r
+#M = matrix(0,nrow = 2,ncol = 2, byrow = TRUE)
+#colnames(M) = c('0','1')
+#rownames(M) = c('0','1')
+#M[1,] = c(tp_r,fp_r) 
+#M[2,] = c(fn_r,tn_r)
+#M
+#err_p <- fp_r/(tp_r+fp_r)
+#print('error p: ')
+#err_p
+#err_n <- fn_r/(tn_r+fn_r)
+#print('error n: ')
+#err_n
+#print('media_er: ')
+#media_er <- (err_p + err_n) / 2
+#media_er
+
+
+# Train model
+#testset
+#rf <- randomForest(inclinacion_peligrosa ~ altura + especie + circ_tronco_cm + area_seccion, data=trainData, ytest= testData$inclinacion_peligrosa, importance=TRUE)
+#inclinacion_peligrosa <- predict(rf, newdata = testData)
+#print(rf)
+#importance(rf)
+# Formatting
+inclinacion_peligrosa <- as.numeric(as.character(testset$prediction_class))
+id <- testset$id
+results <- data.frame(id,inclinacion_peligrosa)
+results
+
+
+readr::write_csv(results,"results_rand_class.csv")
+```
+
