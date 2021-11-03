@@ -20,7 +20,7 @@
   o la manera en la que perciben el entorno, ya que en caso de que alguna de estas (entre otras variables) no resulte la mas óptima, el agente puede nunca llegar a aprender las reglas
   y mucho menos mejorar con el tiempo. Es a partir de estas variables que pretendemos medir el desempeño del agente, es decir, hacer ligeras modificaciones en la función de costo,
   como en la representación de los estados para observar la variación de la performance del agente en el juego, en este caso, puntuación máxima de manzanas que el agente es capaz 
-  de recolectar. El trabajo estará inspirado y basado en el siguiente artículo: https://towardsdatascience.com/snake-played-by-a-deep-reinforcement-learning-agent-53f2c4331d36,
+  de recolectar. El trabajo estará inspirado y basado en el siguiente [artículo](https://towardsdatascience.com/snake-played-by-a-deep-reinforcement-learning-agent-53f2c4331d36),
   en el cual se muestra una implementación del videojuego con un agente basado en Deep Reinforcement Learning.
   
   Gracias al artículo citado, tenemos una visión de como se podría plantear el entorno para que el agente sea capaz de aprender, modelando estado del mapa mediante posiciones, 
@@ -33,26 +33,47 @@
   aún así, el agente estaría limitado a ser igual de bueno que el mejor del mundo y nunca mejor...
   La magia detrás del reinforcement learning se encuentra en que, el agente, jugará de manera completamente distinta a su creador y, en ocasiones, incluso mejor.
   
-  ## Tiempo total estimado: 26 dias
 
+  ## Bibliografia
+  Se consultó el libro AIMA 3rd Edition y AIMA 2da Edition (en español)
+
+  [Snake Played by a Deep Reinforcement Learning Agent](https://towardsdatascience.com/snake-played-by-a-deep-reinforcement-learning-agent-53f2c4331d36)
+
+  ## Justificacion
+  El objetivo de este trabajo es la investigacion y comparacion de los algoritmos de reinforcement learning asi como tambien su aplicacion el un ejemplo tangible como es la puesta en ejecucion del clasico juego "Snake", se comparara el algoritmo Q-Learning en metricas como tiempo de respuesta para alcanzar una misma puntuacion (eficiencia), puntuacion maxima alcanzada y performance ante distintos escenarios
+  Y como posible objetivo extra sera aplicar algun algoritmo de Deep RL y comparar en las mismas metricas.
+  ## Tiempo total estimado: *26 dias*
 
   ## Actividades a llevar a cabo
   
-  ### 1) Lectura de articulos [2 días]
+  1. Lectura de articulos *[2 días]*
   
-  ### 2) Investigar algoritmos de Reinforcement Learning [2 días]
+  2. Investigar algoritmos de Reinforcement Learning *[2 días]*
   
-  ### 3) Leer bibliografía para profundizar en los algoritmos [4 días]
+  3. Leer bibliografía para profundizar en los algoritmos *[4 días]*
   
-  ### 4) Elección del algoritmo a implementar [1 día]
+  4. Elección del algoritmo a implementar *[1 día]*
   
-  ### 5) Búsqueda de librerías o implementación propia del algoritmo [3 días]
+  5. Búsqueda de librerías o implementación propia del algoritmo *[3 días]*
   
-  ### 6) Adaptación del entorno de Snake para funcionar con nuestro algoritmo [3 días]
+  6. Adaptación del entorno de Snake para funcionar con nuestro algoritmo *[3 días]*
   
-  ### 7) Plantear el modelo de entrenamiento para el algoritmo [4 días]
+  7. Plantear el modelo de entrenamiento para el algoritmo *[4 días]*
   
-  ### 8) Ajustar variables para un mejor aprendizaje del agente [2 días]
+  8. Ajustar variables para un mejor aprendizaje del agente *[2 días]*
   
-  ### 9) Revisar los resultados obtenidos y redactar el informe final [5 días]
+  9. Revisar los resultados obtenidos y redactar el informe final *[5 días]*
+
+  ## Cronograma
   
+  | Actividad | Dia 1 | Dia 2 | Dia 3 | Dia 4 | Dia 5 | Dia 6 | Dia  7| Dia 8 | Dia 9 | Dia 10 | Dia 11 | Dia 12 | Dia 13 | Dia 14 | Dia 15 | Dia 16 | Dia 17 | Dia 18 | Dia 19 | Dia 20 | Dia 21 | Dia 22 | Dia 23 | Dia 24 | Dia 25 | Dia 26 |
+  | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+  | Lectura de articulos                                                  | X | X |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+  | Investigar algoritmos de Reinforcement Learning                       |   |   | X | X |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+  | Leer bibliografía para profundizar en los algoritmos                  |   |   |   |   | X | X | X | X |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+  | Elección del algoritmo a implementar                                  |   |   |   |   |   |   |   |   | X |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+  | Búsqueda de librerías o implementación propia del algoritmo           |   |   |   |   |   |   |   |   |   | X | X | X |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+  | Adaptación del entorno de Snake para funcionar con nuestro algoritmo  |   |   |   |   |   |   |   |   |   |   |   |   | X | X | X |   |   |   |   |   |   |   |   |   |   |   |
+  | Búsqueda de librerías o implementación propia del algoritmo           |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | X | X | X | X |   |   |   |   |   |   |   |
+  | Ajustar variables para un mejor aprendizaje del agente                |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | X | X |   |   |   |   |   |
+  | Revisar los resultados obtenidos y redactar el informe final          | X | X | X | X | X | X | X | X | X | X | X | X | X | X | X | X | X | X | X | X | X | X | X | X | X | X |
