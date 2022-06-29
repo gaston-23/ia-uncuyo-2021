@@ -47,22 +47,50 @@
   ## Actividades a llevar a cabo
   
   1. Lectura de articulos *[2 días]*
+        1. Releer el artículo que impulsó el trabajo
+        2. Leer artículos sobre QLearning y otras alternativas
+        3. Leer artículos sobre implementaciones de dichos algoritmos
+        4. Leer artículos sobre como mejorar las métricas en cada algoritmo
   
   2. Investigar algoritmos de Reinforcement Learning *[2 días]*
   
   3. Leer bibliografía para profundizar en los algoritmos *[4 días]*
+        1. Leer capítulo 19 AIMA
+        2. Leer capítulo 20 AIMA
+        3. Leer capítulo 21 AIMA
   
   4. Elección del algoritmo a implementar *[1 día]*
+        1. Buscar métricas en internet
+        2. Comparar cada una de las métricas y seleccionar el que mejor se adapte al problema
+        3. Realizar pruebas preliminares de los algoritmos seleccionados sobre datos de prueba
   
   5. Búsqueda de librerías o implementación propia del algoritmo *[3 días]*
+        1. Investigar TensorFlow
+        2. Investigar SciKit
+        3. Otras
+        4. Compararlas para saber cual se ajusta mejor a nuestras necesidades
   
   6. Adaptación del entorno de Snake para funcionar con nuestro algoritmo *[3 días]*
+        1. Aprender las bases de PyGame
+        2. Adaptar el frontend a nuestra implementación
   
   7. Plantear el modelo de entrenamiento para el algoritmo *[4 días]*
+        1. Implementar QLearning
+        2. Implementar Deep Reinforcement Learning
+        3. Aplicar técnicas para mejorar los resultados
   
   8. Ajustar variables para un mejor aprendizaje del agente *[2 días]*
+        1. Obtener métricas de los resultados
+        2. Analizar y comparar las sucesivas iteraciones de los modelos
+        3. Llegar a superar una puntuación de 40 en el juego
   
-  9. Revisar los resultados obtenidos y redactar el informe final *[5 días]*
+  9.  Revisar los resultados obtenidos y redactar el informe final *[5 días]*
+        1.  Redactar la introducción
+        2.  Resumir el marco teórico
+        3.  Documentar el proceso de diseño
+        4.  Selección de gráficos, métricas, etc
+        5.  Redactar el análisis de resultados
+        6.  Redactar conclusión 
 
   ## Cronograma
   
